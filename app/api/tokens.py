@@ -3,6 +3,7 @@ from pathlib import Path
 
 from fastapi import APIRouter, Depends, HTTPException, Request
 from fastapi.responses import FileResponse
+from sqlalchemy.orm import Session
 
 from ..database import get_db
 from ..models import Honeytoken, SecurityEvent
@@ -581,4 +582,3 @@ def activate_honeytoken(
         "status":
             token.status
     }
-
