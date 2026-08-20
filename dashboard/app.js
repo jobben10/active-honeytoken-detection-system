@@ -150,19 +150,26 @@ function showPage(pageName) {
 // ============================================================
 
 async function apiRequest(url, options = {}) {
+    const token =
+        window.authToken ||
+        localStorage.getItem("honeytoken_access_token");
+
+    const headers = {
+        "Content-Type": "application/json",
+        ...(options.headers || {})
+    };
+
+    if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+    }
 
     const response = await fetch(
         `${API_BASE}${url}`,
         {
             ...options,
-
-            headers: {
-                "Content-Type": "application/json",
-                ...(options.headers || {})
-            }
+            headers
         }
     );
-
 
     let data = null;
 
@@ -172,21 +179,23 @@ async function apiRequest(url, options = {}) {
         data = null;
     }
 
-
     if (!response.ok) {
-
         const message =
             data?.detail ||
             data?.message ||
             `Request failed with status ${response.status}`;
 
+        if (response.status === 401) {
+            console.error(
+                "Authentication failed. JWT token is missing or expired."
+            );
+        }
+
         throw new Error(message);
     }
 
-
     return data;
 }
-
 
 // ============================================================
 // DASHBOARD
