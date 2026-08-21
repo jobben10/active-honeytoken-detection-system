@@ -321,8 +321,31 @@ def test_admin_can_create_honeytoken():
 
 
 def test_public_honeytoken_trigger():
+    token = login(
+        "admin",
+        "Admin@12345",
+    )
+
+    payload = {
+        "document_name": "CI Trigger Test.xlsx",
+        "document_type": "xlsx",
+        "classification": "CONFIDENTIAL",
+        "severity": "HIGH",
+    }
+
+    create_response = client.post(
+        "/api/tokens/",
+        json=payload,
+        headers=auth_headers(token),
+    )
+
+    assert create_response.status_code in [200, 201]
+
+    token_data = create_response.json()
+    token_id = token_data["token_id"]
+
     response = client.get(
-        "/api/events/trigger/HNY-53CA9F63"
+        f"/api/events/trigger/{token_id}"
     )
 
     assert response.status_code == 200
@@ -351,3 +374,4 @@ def test_invalid_login():
     )
 
     assert response.status_code == 401
+
