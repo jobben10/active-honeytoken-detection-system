@@ -1,6 +1,5 @@
 Active Honeytoken Detection System
 
-""Python Tests" (https://github.com/jobben10/active-honeytoken-detection-system/actions/workflows/tests.yml/badge.svg)" (https://github.com/jobben10/active-honeytoken-detection-system/actions/workflows/tests.yml)
 
 A defensive cybersecurity platform for detecting potential unauthorized access to sensitive documents using document-based honeytokens, real-time event detection, risk scoring, alerting, threat intelligence, MITRE ATT&CK mapping, audit logging, and a SOC-style monitoring dashboard.
 
